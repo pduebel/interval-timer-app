@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,14 +11,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int timeLeft = 5;
+  int _startTime = 0;
+  int _timeLeft = 0;
   late Timer timer;
+  bool _timing = false;
 
   void _startTimer() {
+    setState(() {
+      _timeLeft = _startTime;
+      _timing = true;
+    });
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (timeLeft > 0) {
+      if (_timeLeft > 0) {
         setState(() {
-          timeLeft--;
+          _timeLeft--;
         });
       } else {
         timer.cancel();
@@ -27,8 +34,8 @@ class _HomePageState extends State<HomePage> {
 
   void _resetTimer() {
     setState(() {
-      timeLeft = 5;
       timer.cancel();
+      _timing = false;
     });
   }
 
@@ -39,10 +46,21 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(
-              timeLeft == 0 ? 'DONE' : timeLeft.toString(),
-              style: TextStyle(fontSize: 70),
-            ),
+            if (!_timing) ...[
+              NumberPicker(
+                value: _startTime,
+                minValue: 0,
+                maxValue: 100,
+                step: 1,
+                haptics: true,
+                onChanged: (value) => setState(() => _startTime = value),
+              )
+            ] else ...[
+              Text(
+                _timeLeft == 0 ? 'DONE' : _timeLeft.toString(),
+                style: TextStyle(fontSize: 70),
+              )
+            ],
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -63,7 +81,7 @@ class _HomePageState extends State<HomePage> {
                 MaterialButton(
                   onPressed: _resetTimer,
                   child: const Text(
-                    'RESET',
+                    'CANCEL',
                     style: TextStyle(
                       color: Colors.white,
                       letterSpacing: 5,
