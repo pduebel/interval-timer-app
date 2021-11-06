@@ -49,37 +49,7 @@ class _OptionsPageState extends State<OptionsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Row(
-              children: [
-                Column(
-                  children: <Widget>[
-                    Text('Activity'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        NumberPicker(
-                          itemWidth: 50,
-                          minValue: 0,
-                          maxValue: 120,
-                          value: _activityMinutes,
-                          onChanged: (value) =>
-                              setState(() => _activityMinutes = value),
-                        ),
-                        Text('min'),
-                        NumberPicker(
-                          itemWidth: 50,
-                          minValue: 0,
-                          maxValue: 60,
-                          value: _activitySeconds,
-                          onChanged: (value) =>
-                              setState(() => _activitySeconds = value),
-                        ),
-                        Text('sec')
-                      ],
-                    )
-                  ],
-                )
-              ],
+              children: [],
             ),
           ],
         ),
