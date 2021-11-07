@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+import 'time_picker.dart';
+
 class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
 
@@ -11,34 +13,12 @@ class OptionsPage extends StatefulWidget {
 }
 
 class _OptionsPageState extends State<OptionsPage> {
-  int _startTime = 0;
-  int _timeLeft = 0;
-  late Timer timer;
-  bool _timing = false;
   int _activityMinutes = 0;
   int _activitySeconds = 0;
 
-  void _startTimer() {
-    setState(() {
-      _timeLeft = _startTime;
-      _timing = true;
-    });
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_timeLeft > 0) {
-        setState(() {
-          _timeLeft--;
-        });
-      } else {
-        timer.cancel();
-      }
-    });
-  }
-
-  void _resetTimer() {
-    setState(() {
-      timer.cancel();
-      _timing = false;
-    });
+  void updateTime(int value) {
+    setState(() => _activityMinutes = value);
+    NumberPicker.animateInt(value);
   }
 
   @override
@@ -49,7 +29,16 @@ class _OptionsPageState extends State<OptionsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Row(
-              children: [],
+              children: [
+                TimePicker(
+                  title: 'Activity',
+                  minutes: _activityMinutes,
+                  seconds: _activitySeconds,
+                  onChangeCallBack: updateTime,
+                ),
+                Text(_activityMinutes.toString()),
+                Text(_activitySeconds.toString())
+              ],
             ),
           ],
         ),
