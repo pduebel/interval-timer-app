@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:numberpicker/numberpicker.dart';
 
 import 'time_picker.dart';
+import 'round_picker.dart';
 
 class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
@@ -15,10 +13,32 @@ class OptionsPage extends StatefulWidget {
 class _OptionsPageState extends State<OptionsPage> {
   int _activityMinutes = 0;
   int _activitySeconds = 0;
+  int _restMinutes = 0;
+  int _restSeconds = 0;
+  int _rounds = 0;
 
-  void updateTime(int value) {
-    setState(() => _activityMinutes = value);
-    NumberPicker.animateInt(value);
+  void updateActivity(int value, String unit) {
+    if (unit == 'm') {
+      setState(() => _activityMinutes = value);
+    } else if (unit == 's') {
+      setState(() => _activitySeconds = value);
+    }
+  }
+
+  void updateRest(int value, String unit) {
+    if (unit == 'm') {
+      setState(() => _restMinutes = value);
+    } else if (unit == 's') {
+      setState(() => _restSeconds = value);
+    }
+  }
+
+  void updateRounds(String direction) {
+    if (direction == '-') {
+      setState(() => _rounds--);
+    } else if (direction == '+') {
+      setState(() => _rounds++);
+    }
   }
 
   @override
@@ -29,17 +49,30 @@ class _OptionsPageState extends State<OptionsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 TimePicker(
                   title: 'Activity',
                   minutes: _activityMinutes,
                   seconds: _activitySeconds,
-                  onChangeCallBack: updateTime,
+                  onChangeCallBack: updateActivity,
                 ),
-                Text(_activityMinutes.toString()),
-                Text(_activitySeconds.toString())
+                TimePicker(
+                    title: 'Rest',
+                    minutes: _restMinutes,
+                    seconds: _restSeconds,
+                    onChangeCallBack: updateRest)
               ],
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                RoundPicker(
+                  rounds: _rounds,
+                  onPressedCallBack: updateRounds,
+                ),
+              ],
+            )
           ],
         ),
       ),

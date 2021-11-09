@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-class TimePicker extends StatefulWidget {
+class TimePicker extends StatelessWidget {
   final String title;
-  int minutes;
-  int seconds;
-  Function(int) onChangeCallBack;
+  final int minutes;
+  final int seconds;
+  final Function onChangeCallBack;
 
-  TimePicker(
+  const TimePicker(
       {Key? key,
       required this.title,
       required this.minutes,
@@ -16,34 +16,31 @@ class TimePicker extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TimePickerState createState() => _TimePickerState();
-}
-
-class _TimePickerState extends State<TimePicker> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: <Widget>[
-          Text(widget.title),
+          Text(title),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               NumberPicker(
+                itemHeight: 35,
                 itemWidth: 50,
                 minValue: 0,
                 maxValue: 120,
-                value: widget.minutes,
-                onChanged: (value) => widget.onChangeCallBack,
+                value: minutes,
+                onChanged: (value) => onChangeCallBack(value, 'm'),
               ),
               const Text('min'),
               NumberPicker(
+                itemHeight: 35,
                 itemWidth: 50,
                 minValue: 0,
-                maxValue: 60,
-                value: widget.seconds,
-                onChanged: (value) => setState(() => widget.seconds = value),
+                maxValue: 59,
+                value: seconds,
+                onChanged: (value) => onChangeCallBack(value, 's'),
               ),
               const Text('sec'),
             ],
