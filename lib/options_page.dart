@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'time_picker.dart';
 import 'round_picker.dart';
+import 'timer_page.dart';
 
 class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
@@ -44,37 +45,55 @@ class _OptionsPageState extends State<OptionsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TimePicker(
-                  title: 'Activity',
-                  minutes: _activityMinutes,
-                  seconds: _activitySeconds,
-                  onChangeCallBack: updateActivity,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TimePicker(
+                title: 'Activity',
+                minutes: _activityMinutes,
+                seconds: _activitySeconds,
+                onChangeCallBack: updateActivity,
+              ),
+              TimePicker(
+                  title: 'Rest',
+                  minutes: _restMinutes,
+                  seconds: _restSeconds,
+                  onChangeCallBack: updateRest)
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RoundPicker(
+                rounds: _rounds,
+                onPressedCallBack: updateRounds,
+              ),
+            ],
+          ),
+          MaterialButton(
+            child: Text('Start'),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return TimerPage(
+                      activityMinutes: _activityMinutes,
+                      activitySeconds: _activitySeconds,
+                      restMinutes: _restMinutes,
+                      restSeconds: _restSeconds,
+                      rounds: _rounds,
+                    );
+                  },
                 ),
-                TimePicker(
-                    title: 'Rest',
-                    minutes: _restMinutes,
-                    seconds: _restSeconds,
-                    onChangeCallBack: updateRest)
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RoundPicker(
-                  rounds: _rounds,
-                  onPressedCallBack: updateRounds,
-                ),
-              ],
-            )
-          ],
-        ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
