@@ -82,10 +82,8 @@ class _OptionsPageState extends State<OptionsPage> {
                 MaterialPageRoute(
                   builder: (BuildContext context) {
                     return TimerPage(
-                      activityMinutes: _activityMinutes,
-                      activitySeconds: _activitySeconds,
-                      restMinutes: _restMinutes,
-                      restSeconds: _restSeconds,
+                      activityTime: (_activityMinutes * 60) + _activitySeconds,
+                      restTime: (_restMinutes * 60) + _restSeconds,
                       rounds: _rounds,
                     );
                   },
