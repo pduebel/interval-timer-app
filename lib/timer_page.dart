@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class TimerPage extends StatefulWidget {
-  int activityTime;
+  final int activityTime;
   final int restTime;
   final int rounds;
 
@@ -19,20 +19,68 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> {
+  late Timer _timer;
+  String _currentPeriod = 'activity';
+  late int _timeLeft = widget.activityTime;
+  double _roundsCompleted = 0.0;
+
   void _startCountDown() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        widget.activityTime--;
-      });
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_timeLeft > 0) {
+        setState(() {
+          _timeLeft--;
+        });
+      } else {
+        _roundsCompleted += 0.5;
+        if (_currentPeriod == 'activity' && _roundsCompleted < widget.rounds) {
+          setState(() {
+            _timeLeft = widget.restTime;
+            _currentPeriod = 'rest';
+          });
+        } else if (_currentPeriod == 'rest' &&
+            _roundsCompleted < widget.rounds) {
+          setState(() {
+            _timeLeft = widget.activityTime;
+            _currentPeriod = 'activity';
+          });
+        } else {
+          _timer.cancel();
+        }
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('${(widget.activityTime ~/ 60)}'.padLeft(2, '0') +
-          ':' +
-          '${widget.activityTime % 60}'.padLeft(2, '0')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Text(
+              '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
+                  ':' +
+                  '${_timeLeft % 60}'.padLeft(2, '0'),
+            ),
+            MaterialButton(
+              child: Text('Start'),
+              onPressed: _startCountDown,
+            ),
+            MaterialButton(
+              child: Text('Pause'),
+              onPressed: () {
+                _timer.cancel();
+              },
+            ),
+            MaterialButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        ),
+      ),
     );
   }
 }
