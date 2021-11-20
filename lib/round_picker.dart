@@ -14,12 +14,20 @@ class RoundPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text('Rounds'),
+        const Text(
+          'Rounds',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         MaterialButton(
           child: const Text('-'),
           onPressed: () => onPressedCallBack('-'),
         ),
-        Text(rounds.toString()),
+        Text(rounds.toString(),
+            style: TextStyle(
+              color: Colors.white,
+            )),
         MaterialButton(
           child: const Text('+'),
           onPressed: () => onPressedCallBack('+'),

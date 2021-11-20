@@ -44,54 +44,67 @@ class _OptionsPageState extends State<OptionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TimePicker(
-                title: 'Activity',
-                minutes: _activityMinutes,
-                seconds: _activitySeconds,
-                onChangeCallBack: updateActivity,
-              ),
-              TimePicker(
-                  title: 'Rest',
-                  minutes: _restMinutes,
-                  seconds: _restSeconds,
-                  onChangeCallBack: updateRest)
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RoundPicker(
-                rounds: _rounds,
-                onPressedCallBack: updateRounds,
-              ),
-            ],
-          ),
-          MaterialButton(
-            child: Text('Start'),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) {
-                    return TimerPage(
-                      activityTime: (_activityMinutes * 60) + _activitySeconds,
-                      restTime: (_restMinutes * 60) + _restSeconds,
-                      rounds: _rounds,
-                    );
-                  },
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[Color(0xff09c6f9), Color(0xff045de9)]),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: TimePicker(
+                    title: 'Activity',
+                    minutes: _activityMinutes,
+                    seconds: _activitySeconds,
+                    onChangeCallBack: updateActivity,
+                  ),
                 ),
-              );
-            },
-          ),
-        ],
+                Expanded(
+                    child: TimePicker(
+                        title: 'Rest',
+                        minutes: _restMinutes,
+                        seconds: _restSeconds,
+                        onChangeCallBack: updateRest))
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RoundPicker(
+                  rounds: _rounds,
+                  onPressedCallBack: updateRounds,
+                ),
+              ],
+            ),
+            MaterialButton(
+              child: Text('Go'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return TimerPage(
+                        activityTime:
+                            (_activityMinutes * 60) + _activitySeconds,
+                        restTime: (_restMinutes * 60) + _restSeconds,
+                        rounds: _rounds,
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -20,11 +20,15 @@ class TimerPage extends StatefulWidget {
 
 class _TimerPageState extends State<TimerPage> {
   late Timer _timer;
-  String _currentPeriod = 'activity';
+  String _currentPeriod = 'Activity';
   late int _timeLeft = widget.activityTime;
   double _roundsCompleted = 0.0;
+  bool _timing = false;
 
   void _startCountDown() {
+    setState(() {
+      _timing = true;
+    });
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() {
@@ -32,21 +36,28 @@ class _TimerPageState extends State<TimerPage> {
         });
       } else {
         _roundsCompleted += 0.5;
-        if (_currentPeriod == 'activity' && _roundsCompleted < widget.rounds) {
+        if (_currentPeriod == 'Activity' && _roundsCompleted < widget.rounds) {
           setState(() {
             _timeLeft = widget.restTime;
-            _currentPeriod = 'rest';
+            _currentPeriod = 'Rest';
           });
-        } else if (_currentPeriod == 'rest' &&
+        } else if (_currentPeriod == 'Rest' &&
             _roundsCompleted < widget.rounds) {
           setState(() {
             _timeLeft = widget.activityTime;
-            _currentPeriod = 'activity';
+            _currentPeriod = 'Activity';
           });
         } else {
           _timer.cancel();
         }
       }
+    });
+  }
+
+  void _pauseCountDown() {
+    setState(() {
+      _timing = false;
+      _timer.cancel();
     });
   }
 
@@ -57,23 +68,23 @@ class _TimerPageState extends State<TimerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            Text(_currentPeriod),
             Text(
               '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
                   ':' +
                   '${_timeLeft % 60}'.padLeft(2, '0'),
             ),
+            _timing
+                ? MaterialButton(
+                    child: const Text('Pause'),
+                    onPressed: _pauseCountDown,
+                  )
+                : MaterialButton(
+                    child: const Text('Start'),
+                    onPressed: _startCountDown,
+                  ),
             MaterialButton(
-              child: Text('Start'),
-              onPressed: _startCountDown,
-            ),
-            MaterialButton(
-              child: Text('Pause'),
-              onPressed: () {
-                _timer.cancel();
-              },
-            ),
-            MaterialButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.pop(context);
               },
