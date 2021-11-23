@@ -12,26 +12,54 @@ class RoundPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
+    return Column(
+      children: <Widget>[
         const Text(
           'Rounds',
           style: TextStyle(
             color: Colors.white,
+            fontSize: 16,
           ),
         ),
-        MaterialButton(
-          child: const Text('-'),
-          onPressed: () => onPressedCallBack('-'),
+        Container(
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: <Color>[Colors.white, Color(0xfffcfcfc)],
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 1,
+                blurRadius: 3,
+                offset: Offset(1, 2), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Row(
+            children: <Widget>[
+              MaterialButton(
+                child: Text('-', style: TextStyle(fontSize: 20)),
+                onPressed: () => onPressedCallBack('-'),
+              ),
+              Text(
+                rounds.toString(),
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 20,
+                ),
+              ),
+              MaterialButton(
+                child: Text('+', style: TextStyle(fontSize: 16)),
+                onPressed: () => onPressedCallBack('+'),
+              ),
+            ],
+          ),
         ),
-        Text(rounds.toString(),
-            style: TextStyle(
-              color: Colors.white,
-            )),
-        MaterialButton(
-          child: const Text('+'),
-          onPressed: () => onPressedCallBack('+'),
-        )
       ],
     );
   }

@@ -57,6 +57,11 @@ class _OptionsPageState extends State<OptionsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Text('Interval Timer',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                )),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -85,8 +90,22 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
               ],
             ),
-            MaterialButton(
-              child: Text('Go'),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                minimumSize: Size(90, 90),
+                side: BorderSide(
+                  color: Colors.white,
+                  width: 2,
+                ),
+                shape: CircleBorder(),
+              ),
+              child: Text(
+                'Go',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                ),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
