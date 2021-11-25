@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'round_button.dart';
+
 class TimerPage extends StatefulWidget {
   final int activityTime;
   final int restTime;
@@ -63,33 +65,53 @@ class _TimerPageState extends State<TimerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Text(_currentPeriod),
-            Text(
-              '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
-                  ':' +
-                  '${_timeLeft % 60}'.padLeft(2, '0'),
-            ),
-            _timing
-                ? MaterialButton(
-                    child: const Text('Pause'),
-                    onPressed: _pauseCountDown,
-                  )
-                : MaterialButton(
-                    child: const Text('Start'),
-                    onPressed: _startCountDown,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: _currentPeriod == 'Activity'
+                ? <Color>[Color(0xff5aff15), Color(0xff00b712)]
+                : <Color>[Color(0xfffbd72b), Color(0xfff9484a)]),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(_currentPeriod,
+                  style: TextStyle(color: Colors.white, fontSize: 26)),
+              Text(
+                  '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
+                      ':' +
+                      '${_timeLeft % 60}'.padLeft(2, '0'),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 90,
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  _timing
+                      ? RoundButton(
+                          text: 'Pause',
+                          onPressedCallBack: _pauseCountDown,
+                        )
+                      : RoundButton(
+                          text: 'Start',
+                          onPressedCallBack: _startCountDown,
+                        ),
+                  RoundButton(
+                    text: 'Cancel',
+                    onPressedCallBack: () {
+                      Navigator.pop(context);
+                    },
                   ),
-            MaterialButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

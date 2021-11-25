@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'time_picker.dart';
 import 'round_picker.dart';
 import 'timer_page.dart';
+import 'round_button.dart';
 
 class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
@@ -90,23 +91,9 @@ class _OptionsPageState extends State<OptionsPage> {
                 ),
               ],
             ),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                minimumSize: Size(90, 90),
-                side: BorderSide(
-                  color: Colors.white,
-                  width: 2,
-                ),
-                shape: CircleBorder(),
-              ),
-              child: Text(
-                'Go',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                ),
-              ),
-              onPressed: () {
+            RoundButton(
+              text: 'GO',
+              onPressedCallBack: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
