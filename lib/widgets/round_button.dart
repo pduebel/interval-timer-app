@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Round outline button
 class RoundButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressedCallBack;
@@ -14,16 +15,16 @@ class RoundButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        minimumSize: Size(100, 100),
-        side: BorderSide(
+        minimumSize: const Size(100, 100),
+        side: const BorderSide(
           color: Colors.white,
           width: 2,
         ),
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 28,
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
+// Select time in minutes and seconds
 class TimePicker extends StatelessWidget {
   final String title;
   final int minutes;
@@ -21,22 +22,22 @@ class TimePicker extends StatelessWidget {
       children: <Widget>[
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.white,
           ),
         ),
         Container(
-          margin: EdgeInsets.all(10),
-          padding: EdgeInsets.only(
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(
             right: 15,
             top: 15,
             bottom: 15,
           ),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            gradient: LinearGradient(
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+            gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[Colors.white, Color(0xfffcfcfc)],
@@ -46,7 +47,7 @@ class TimePicker extends StatelessWidget {
                 color: Colors.black.withOpacity(0.1),
                 spreadRadius: 1,
                 blurRadius: 3,
-                offset: Offset(1, 2), // changes position of shadow
+                offset: const Offset(1, 2),
               ),
             ],
           ),
@@ -62,7 +63,7 @@ class TimePicker extends StatelessWidget {
                     minValue: 0,
                     maxValue: 120,
                     value: minutes,
-                    textStyle: TextStyle(color: Colors.grey),
+                    textStyle: const TextStyle(color: Colors.grey),
                     onChanged: (value) => onChangeCallBack(value, 'm'),
                   ),
                   const Text('min'),
@@ -72,7 +73,7 @@ class TimePicker extends StatelessWidget {
                     minValue: 0,
                     maxValue: 59,
                     value: seconds,
-                    textStyle: TextStyle(color: Colors.grey),
+                    textStyle: const TextStyle(color: Colors.grey),
                     onChanged: (value) => onChangeCallBack(value, 's'),
                   ),
                   const Text('sec'),

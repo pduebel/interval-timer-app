@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Widget to pick number of rounds
 class RoundPicker extends StatelessWidget {
   final int rounds;
   final Function onPressedCallBack;

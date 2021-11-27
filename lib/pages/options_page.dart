@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'time_picker.dart';
-import 'round_picker.dart';
+import '../widgets/time_picker.dart';
+import '../widgets/round_picker.dart';
 import 'timer_page.dart';
-import 'round_button.dart';
+import '../widgets/round_button.dart';
 
+// Page for user to choose activity/rest time and number of rounds
 class OptionsPage extends StatefulWidget {
   const OptionsPage({Key? key}) : super(key: key);
 
@@ -58,7 +59,7 @@ class _OptionsPageState extends State<OptionsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('Interval Timer',
+            const Text('Interval Timer',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,

@@ -2,14 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'round_button.dart';
+import '../widgets/round_button.dart';
 
+// Page that displays timer countdown
 class TimerPage extends StatefulWidget {
   final int activityTime;
   final int restTime;
   final int rounds;
 
-  TimerPage(
+  const TimerPage(
       {Key? key,
       required this.activityTime,
       required this.restTime,
@@ -28,16 +29,20 @@ class _TimerPageState extends State<TimerPage> {
   bool _timing = false;
 
   void _startCountDown() {
+    // Countdown while switching between activity and rest time for
+    // set number of rounds
     setState(() {
       _timing = true;
     });
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_timeLeft > 0) {
         setState(() {
           _timeLeft--;
         });
       } else {
-        _roundsCompleted += 0.5;
+        setState(() {
+          _roundsCompleted += 0.5;
+        });
         if (_currentPeriod == 'Activity' && _roundsCompleted < widget.rounds) {
           setState(() {
             _timeLeft = widget.restTime;
@@ -63,6 +68,15 @@ class _TimerPageState extends State<TimerPage> {
     });
   }
 
+  void _resetCountDown() {
+    setState(() {
+      _timeLeft = widget.activityTime;
+      _currentPeriod = 'Activity';
+      _roundsCompleted = 0.0;
+      _timing = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,8 +85,8 @@ class _TimerPageState extends State<TimerPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: _currentPeriod == 'Activity'
-                ? <Color>[Color(0xff5aff15), Color(0xff00b712)]
-                : <Color>[Color(0xfffbd72b), Color(0xfff9484a)]),
+                ? const <Color>[Color(0xff5aff15), Color(0xff00b712)]
+                : const <Color>[Color(0xfffbd72b), Color(0xfff9484a)]),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -81,27 +95,38 @@ class _TimerPageState extends State<TimerPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Text(_currentPeriod,
-                  style: TextStyle(color: Colors.white, fontSize: 26)),
-              Text(
-                  '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
-                      ':' +
-                      '${_timeLeft % 60}'.padLeft(2, '0'),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 90,
-                  )),
+                  style: const TextStyle(color: Colors.white, fontSize: 26)),
+              (_timeLeft == 0) && (_roundsCompleted == widget.rounds)
+                  ? const Text('DONE',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 90,
+                      ))
+                  : Text(
+                      '${(_timeLeft ~/ 60)}'.padLeft(2, '0') +
+                          ':' +
+                          '${_timeLeft % 60}'.padLeft(2, '0'),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 90,
+                      )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _timing
+                  (_timeLeft == 0) && (_roundsCompleted == widget.rounds)
                       ? RoundButton(
-                          text: 'Pause',
-                          onPressedCallBack: _pauseCountDown,
+                          text: 'Reset',
+                          onPressedCallBack: _resetCountDown,
                         )
-                      : RoundButton(
-                          text: 'Start',
-                          onPressedCallBack: _startCountDown,
-                        ),
+                      : _timing
+                          ? RoundButton(
+                              text: 'Pause',
+                              onPressedCallBack: _pauseCountDown,
+                            )
+                          : RoundButton(
+                              text: 'Start',
+                              onPressedCallBack: _startCountDown,
+                            ),
                   RoundButton(
                     text: 'Cancel',
                     onPressedCallBack: () {
